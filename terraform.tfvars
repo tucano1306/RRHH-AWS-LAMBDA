@@ -1,0 +1,8 @@
+aws_region                     = "us-west-2"
+s3_bucket_name                 = "my-unique-hr-reports-bucket-recursos-humanos"
+dynamodb_table_name            = "hr_requests_table"
+lambda_function_name           = "hr_lambda_function"
+lambda_handler                 = "lambda_function.lambda_handler"
+lambda_runtime                 = "python3.8"
+cloudwatch_event_rule_name     = "hr_lambda_schedule_rule"
+cloudwatch_schedule_expression = "rate(5 minutes)"
