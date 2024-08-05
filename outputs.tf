@@ -17,3 +17,17 @@ output "cloudwatch_event_rule_name" {
   description = "The name of the CloudWatch Event Rule."
   value       = aws_cloudwatch_event_rule.schedule_rule.name
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
