@@ -35,3 +35,6 @@ Costo-eficiencia: AWS Lambda y DynamoDB ofrecen modelos de pago por uso, lo que 
 Seguridad: La arquitectura utiliza roles y políticas de IAM para controlar el acceso y las acciones permitidas, asegurando que solo los servicios autorizados puedan interactuar entre sí.
 Monitoreo y Logging: CloudWatch proporciona monitoreo y logging, lo que facilita la observación y el diagnóstico de problemas.
 Esta arquitectura es flexible y puede adaptarse a diferentes necesidades y escalas, permitiendo a los equipos de RRHH centrarse en tareas más estratégicas mientras las tareas repetitivas son manejadas automáticamente.
+
+
+NOTA : SE DEBE COMPRIMIR EL LAMBDA_FUNCTION.PY
