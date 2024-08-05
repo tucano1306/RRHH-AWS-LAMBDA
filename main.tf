@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_iam_role" "lambda_role" {
-  name = "lambda_execution_role"
+  name = "aws_lambda_recursos_humanos"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -39,24 +39,33 @@ resource "aws_dynamodb_table" "requests_table" {
   }
 }
 
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_file = "${path.module}/lambda_function.py"
+  output_path = "${path.module}/lambda_function.zip"
+}
+
 resource "aws_lambda_function" "hr_lambda" {
-  function_name = var.lambda_function_name
-  role          = aws_iam_role.lambda_role.arn
-  handler       = var.lambda_handler
-  runtime       = var.lambda_runtime
-  filename      = var.lambda_filename
+  filename         = data.archive_file.lambda.output_path
+  function_name    = var.lambda_function_name
+  role             = aws_iam_role.lambda_role.arn
+  handler          = var.lambda_handler
+  runtime          = var.lambda_runtime
+  source_code_hash = data.archive_file.lambda.output_base64sha256
+  memory_size      = 128
+  timeout          = 300
 
   environment {
     variables = {
-      S3_BUCKET_NAME    = aws_s3_bucket.reports_bucket.bucket
+      S3_BUCKET_NAME      = aws_s3_bucket.reports_bucket.bucket
       DYNAMODB_TABLE_NAME = aws_dynamodb_table.requests_table.name
     }
   }
 }
 
 resource "aws_cloudwatch_event_rule" "schedule_rule" {
-  name        = var.cloudwatch_event_rule_name
-  description = "Scheduled rule to trigger Lambda function"
+  name                = var.cloudwatch_event_rule_name
+  description         = "Scheduled rule to trigger Lambda function"
   schedule_expression = var.cloudwatch_schedule_expression
 }
 
@@ -73,3 +82,34 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.schedule_rule.arn
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
